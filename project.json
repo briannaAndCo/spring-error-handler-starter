@@ -2,10 +2,10 @@
   "name": "Spring Error Handler Starter",
   "created": "2026-03-30",
   "repo": "",
-  "objective": "A Spring Boot starter that provides a comprehensive, opinionated error handling platform for Spring applications — targeting inclusion as an officially recommended community starter on start.spring.io. The starter will offer auto-configured exception handling, structured error responses, and extensible error resolution strategies, meeting all Spring Initializr third-party starter guidelines for licensing, quality, and community standards.",
+  "objective": "A Spring Boot starter that provides a comprehensive, opinionated error handling platform for Spring applications \u2014 targeting inclusion as an officially recommended community starter on start.spring.io. The starter will offer auto-configured exception handling, structured error responses, and extensible error resolution strategies, meeting all Spring Initializr third-party starter guidelines for licensing, quality, and community standards.",
   "streams": {
     "research": {
-      "status": "unblocked",
+      "status": "in-progress",
       "type": "research",
       "blockedBy": [],
       "description": "Spring Initializr acceptance criteria deep-dive, competitive analysis of existing error-handling starters"
@@ -13,7 +13,9 @@
     "core-design": {
       "status": "blocked",
       "type": "feature",
-      "blockedBy": ["research"],
+      "blockedBy": [
+        "research"
+      ],
       "description": "Core error handling architecture, auto-configuration, structured error model"
     },
     "compliance": {
@@ -25,7 +27,9 @@
     "docs": {
       "status": "blocked",
       "type": "docs",
-      "blockedBy": ["core-design"],
+      "blockedBy": [
+        "core-design"
+      ],
       "description": "README, configuration metadata, usage guides, Spring community presence"
     }
   }
