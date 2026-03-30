@@ -9,7 +9,7 @@ A Spring Boot starter that provides a comprehensive, opinionated error handling 
 |--------|--------|------|------------|-------|
 | research | in-progress | research | — | Spring Initializr acceptance criteria deep-dive, competitive analysis of existing error-handling starters |
 | core-design | blocked | feature | research | Core error handling architecture, auto-configuration, structured error model |
-| compliance | unblocked | ops | — | Licensing (Apache 2.0), naming conventions, Maven Central publishing, Spring Boot compatibility |
+| compliance | in-progress | ops | — | Licensing (Apache 2.0), naming conventions, Maven Central publishing, Spring Boot compatibility |
 | docs | blocked | docs | core-design | README, configuration metadata, usage guides, Spring community presence |
 
 ## Notes
