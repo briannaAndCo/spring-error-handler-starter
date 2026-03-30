@@ -16,7 +16,7 @@ A Spring Boot starter that provides a comprehensive, opinionated error handling 
 
 | # | Stream | Type | Blocked By | Deliverables |
 |---|--------|------|------------|-------------|
-| 1 | kotlin-conversion | ops | — | Convert Java files to Kotlin, add kotlin-spring plugin, kotlin-allopen, kapt |
+| 1 | kotlin-conversion | in-progress | — | Convert Java files to Kotlin, add kotlin-spring plugin, kotlin-allopen, kapt |
 | 2 | multi-module | ops | 1 | Restructure to multi-module Gradle, build-logic composite build, convention plugins, libs.versions.toml |
 | 3 | tooling | ops | 2 | Detekt config, ktlint config, explicitApi(), Dokka setup, CI matrix update |
 
