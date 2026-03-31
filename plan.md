@@ -9,6 +9,7 @@ A Spring Boot starter that provides a comprehensive, opinionated error handling 
 |--------|------|-------|
 | research | research | Initializr guidelines, ecosystem audit (8 libraries), gap analysis (12 gaps), positioning strategy |
 | compliance | ops | Licensing (Apache 2.0), naming conventions, Maven Central publishing, Spring Boot compatibility |
+| kotlin-conversion | ops | Java→Kotlin (2.0.21), package rename to io.github.briannaandco, explicitApi(), MockK, kapt |
 
 ## Active Streams
 
@@ -16,8 +17,7 @@ A Spring Boot starter that provides a comprehensive, opinionated error handling 
 
 | # | Stream | Type | Blocked By | Deliverables |
 |---|--------|------|------------|-------------|
-| 1 | kotlin-conversion | in-progress | — | Convert Java files to Kotlin, add kotlin-spring plugin, kotlin-allopen, kapt |
-| 2 | multi-module | ops | 1 | Restructure to multi-module Gradle, build-logic composite build, convention plugins, libs.versions.toml |
+| 2 | multi-module | ops | — | Restructure to multi-module Gradle, build-logic composite build, convention plugins, libs.versions.toml |
 | 3 | tooling | ops | 2 | Detekt config, ktlint config, explicitApi(), Dokka setup, CI matrix update |
 
 ### Public API Surface

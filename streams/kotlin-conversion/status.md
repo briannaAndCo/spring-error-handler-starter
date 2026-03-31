@@ -1,9 +1,10 @@
 # Stream: kotlin-conversion
 
-- **Status**: in-progress
-- **Wave**: 
+- **Status**: complete
+- **Wave**:
 - **Blocked By**: None
-- **Capabilities**: 
-- **Notes**: 
+- **Capabilities**:
+- **Notes**: Merged via PR #1
 - **Branch**: stream/kotlin-conversion
 - **Started**: 2026-03-30
+- **Completed**: 2026-03-30

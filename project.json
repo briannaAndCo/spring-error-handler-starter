@@ -3,10 +3,9 @@
   "created": "2026-03-30",
   "repo": "briannaAndCo/spring-error-handler-starter",
   "objective": "A Spring Boot starter that provides a comprehensive, opinionated error handling platform for Spring applications — targeting inclusion as an officially recommended community starter on start.spring.io.",
-  "completedStreams": ["research", "compliance"],
+  "completedStreams": ["research", "compliance", "kotlin-conversion"],
   "streams": {
-    "kotlin-conversion": { "id": 1, "status": "ready", "type": "ops", "blockedBy": [], "description": "Convert Java to Kotlin, add kotlin-spring plugin, kapt" },
-    "multi-module": { "id": 2, "status": "blocked", "type": "ops", "blockedBy": ["kotlin-conversion"], "description": "Multi-module Gradle, build-logic, convention plugins, libs.versions.toml" },
+    "multi-module": { "id": 2, "status": "ready", "type": "ops", "blockedBy": [], "description": "Multi-module Gradle, build-logic, convention plugins, libs.versions.toml" },
     "tooling": { "id": 3, "status": "blocked", "type": "ops", "blockedBy": ["multi-module"], "description": "Detekt, ktlint, explicitApi(), Dokka, CI update" },
     "api-interfaces": { "id": 4, "status": "blocked", "type": "feature", "blockedBy": ["multi-module"], "description": "fun interface: ErrorCodeResolver, ProblemDetailCustomizer, SensitiveDataSanitizer, ExceptionClassifier, LoggingCustomizer" },
     "api-annotations": { "id": 5, "status": "blocked", "type": "feature", "blockedBy": ["multi-module"], "description": "@ErrorCode and @ErrorContext annotation definitions" },
