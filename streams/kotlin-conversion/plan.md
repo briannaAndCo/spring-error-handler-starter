@@ -15,7 +15,7 @@ Single-PR atomic conversion: update build.gradle.kts for Kotlin (plugins, kapt, 
 | GP-9: One auto-config class, one domain | Single class boundary maintained — no merging of concerns | None |
 
 ## Stack Guidelines Applied
-- SG-1: `kotlin("plugin.spring")` added; `@AutoConfiguration(proxyBeanMethods = false)` explicit — applied in `build.gradle.kts` and `ErrorHandlerAutoConfiguration.kt`
+- SG-1: `kotlin("plugin.spring")` added; `proxyBeanMethods = false` enforced via `@AutoConfiguration`'s meta-annotation (bare `@AutoConfiguration` is the only valid usage — it does not expose `proxyBeanMethods` as a parameter) — applied in `build.gradle.kts` and `ErrorHandlerAutoConfiguration.kt`
 - SG-2: `kotlin.explicitApi()` enabled — applied in `build.gradle.kts`; `ErrorHandlerAutoConfiguration` gets explicit `public` visibility
 - SG-5: No `!!` usage — trivially satisfied (empty class), standard set for future code
 - SG-8: MockK + springmockk added, Mockito excluded, backtick test name, `WebApplicationContextRunner` pattern — applied in `build.gradle.kts` and test file
@@ -36,7 +36,7 @@ Single-PR atomic conversion: update build.gradle.kts for Kotlin (plugins, kapt, 
 - [ ] `annotationProcessor` dependencies replaced with `kapt`
 - [ ] MockK + springmockk added as test dependencies, Mockito excluded from `spring-boot-starter-test`
 - [ ] Group ID is `io.github.briannaandco`; POM metadata references `briannaandco`
-- [ ] `ErrorHandlerAutoConfiguration.kt` exists at `io.github.briannaandco.errorhandler` with `@AutoConfiguration(proxyBeanMethods = false)` and explicit `public` visibility
+- [ ] `ErrorHandlerAutoConfiguration.kt` exists at `io.github.briannaandco.errorhandler` with `@AutoConfiguration` and explicit `public` visibility
 - [ ] `ErrorHandlerAutoConfigurationTest.kt` uses backtick test name and `WebApplicationContextRunner`
 - [ ] `AutoConfiguration.imports` references `io.github.briannaandco.errorhandler.ErrorHandlerAutoConfiguration`
 - [ ] Old Java files under `src/main/java` and `src/test/java` are deleted
@@ -61,7 +61,7 @@ Single-PR atomic conversion: update build.gradle.kts for Kotlin (plugins, kapt, 
 
 #### Tasks
 1. [ ] Update `build.gradle.kts`: add Kotlin plugins (2.0.21), kapt, compiler options, `explicitApi()`, MockK deps, group/POM rename — **Sonnet** (SG-1, SG-2, SG-8)
-2. [ ] Create `ErrorHandlerAutoConfiguration.kt` at new package with explicit `public` visibility and `@AutoConfiguration(proxyBeanMethods = false)` — **Haiku** (SG-1, SG-2, GP-9)
+2. [ ] Create `ErrorHandlerAutoConfiguration.kt` at new package with explicit `public` visibility and `@AutoConfiguration` — **Haiku** (SG-1, SG-2, GP-9)
 3. [ ] Create `ErrorHandlerAutoConfigurationTest.kt` with backtick test name — **Haiku** (SG-8)
 4. [ ] Update `AutoConfiguration.imports` to new FQCN — **Haiku** (GP-3)
 5. [ ] Delete old Java source files — **Haiku**
@@ -82,7 +82,7 @@ Single-PR atomic conversion: update build.gradle.kts for Kotlin (plugins, kapt, 
 - MockK/springmockk added now to prevent Mockito adoption by habit in subsequent streams
 - Kotlin 2.0.21 chosen (version Spring Boot 3.4.4 was built against — maximum compatibility)
 - Kotlin version declared inline in `build.gradle.kts` (version catalog deferred to stream 2)
-- `@AutoConfiguration(proxyBeanMethods = false)` explicit per SG-1 even though it's the annotation default
+- `@AutoConfiguration` used bare — `proxyBeanMethods = false` is enforced via its meta-annotation and cannot be set as a parameter
 - `-Xjsr305=strict` added for Spring null-safety interop
 - `kapt { correctErrorTypes = true }` enabled for Spring annotation processors
 
