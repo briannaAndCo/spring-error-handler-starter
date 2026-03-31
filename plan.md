@@ -10,6 +10,7 @@ A Spring Boot starter that provides a comprehensive, opinionated error handling 
 | research | research | Initializr guidelines, ecosystem audit (8 libraries), gap analysis (12 gaps), positioning strategy |
 | compliance | ops | Licensing (Apache 2.0), naming conventions, Maven Central publishing, Spring Boot compatibility |
 | kotlin-conversion | ops | Java→Kotlin (2.0.21), package rename to io.github.briannaandco, explicitApi(), MockK, kapt |
+| multi-module | ops | Multi-module Gradle (autoconfigure + starter), build-logic composite build, convention plugins, libs.versions.toml |
 
 ## Active Streams
 
@@ -17,16 +18,15 @@ A Spring Boot starter that provides a comprehensive, opinionated error handling 
 
 | # | Stream | Type | Blocked By | Deliverables |
 |---|--------|------|------------|-------------|
-| 2 | multi-module | in-progress | — | Restructure to multi-module Gradle, build-logic composite build, convention plugins, libs.versions.toml |
-| 3 | tooling | ops | 2 | Detekt config, ktlint config, explicitApi(), Dokka setup, CI matrix update |
+| 3 | tooling | ops | — | Detekt config, ktlint config, explicitApi(), Dokka setup, CI matrix update |
 
 ### Public API Surface
 
 | # | Stream | Type | Blocked By | Deliverables |
 |---|--------|------|------------|-------------|
-| 4 | api-interfaces | feature | 2 | fun interface declarations: ErrorCodeResolver, ProblemDetailCustomizer, SensitiveDataSanitizer, ExceptionClassifier, LoggingCustomizer |
-| 5 | api-annotations | feature | 2 | @ErrorCode and @ErrorContext annotation definitions (declarations only, no processing) |
-| 6 | api-types | feature | 2 | ProblemRelay (extends ErrorResponseException), Violation (plain class), package structure |
+| 4 | api-interfaces | feature | — | fun interface declarations: ErrorCodeResolver, ProblemDetailCustomizer, SensitiveDataSanitizer, ExceptionClassifier, LoggingCustomizer |
+| 5 | api-annotations | feature | — | @ErrorCode and @ErrorContext annotation definitions (declarations only, no processing) |
+| 6 | api-types | feature | — | ProblemRelay (extends ErrorResponseException), Violation (plain class), package structure |
 
 ### Core Pipeline
 
@@ -34,7 +34,7 @@ A Spring Boot starter that provides a comprehensive, opinionated error handling 
 |---|--------|------|------------|-------------|
 | 7 | error-code-resolution | feature | 4 | Default ErrorCodeResolver: strip Exception suffix → UPPER_SNAKE_CASE. Superclass chain lookup. Annotation + properties override. |
 | 8 | exception-classifier | feature | 4 | Default ExceptionClassifier: 4xx = expected, 5xx = unexpected. Status resolution from @ErrorCode, @ResponseStatus, properties, convention. |
-| 9 | properties | feature | 2 | ProblemEngineProperties data class. All property groups. Configuration metadata generation via kapt. |
+| 9 | properties | feature | — | ProblemEngineProperties data class. All property groups. Configuration metadata generation via kapt. |
 | 10 | problem-engine | feature | 7, 8, 9 | ProblemEngine pipeline skeleton — resolve + classify stages. Fail-safe try-catch wrapping. Hardcoded last-resort fallback. |
 | 11 | problem-sentinel | feature | 10 | @RestControllerAdvice at LOWEST_PRECEDENCE. Delegates to ProblemEngine. Order overridable via property. Back-off tests. |
 | 12 | problem-barrier | feature | 10 | Servlet Filter. Catches filter-chain exceptions. response.isCommitted() check. Writes ProblemDetail directly. |
@@ -104,7 +104,7 @@ A Spring Boot starter that provides a comprehensive, opinionated error handling 
 |---|--------|------|------------|-------------|
 | 37 | problem-relay | feature | 6, 10 | ProblemRelay handling in ProblemEngine. Upstream field preservation. propagation-depth increment. Max depth summarization. |
 | 38 | problem-deserializer | feature | 6 | ProblemDetailDeserializer utility. Parses application/problem+json into ProblemRelay. Malformed body fallback. |
-| 39 | restclient-decoder | feature | 38, 2 | RestClient/RestTemplate ResponseErrorHandler. Separate module. ConditionalOnClass + ConditionalOnMissingBean. |
+| 39 | restclient-decoder | feature | 38 | RestClient/RestTemplate ResponseErrorHandler. Separate module. ConditionalOnClass + ConditionalOnMissingBean. |
 
 ### Content Negotiation
 
@@ -118,8 +118,8 @@ A Spring Boot starter that provides a comprehensive, opinionated error handling 
 
 | # | Stream | Type | Blocked By | Deliverables |
 |---|--------|------|------------|-------------|
-| 43 | exclude-graphql | feature | 2 | ConditionalOnMissingClass for Spring GraphQL. Property to force-enable. Tests. |
-| 44 | exclude-gateway | feature | 2 | ConditionalOnMissingClass for Spring Cloud Gateway. Property to force-enable. Tests. |
+| 43 | exclude-graphql | feature | — | ConditionalOnMissingClass for Spring GraphQL. Property to force-enable. Tests. |
+| 44 | exclude-gateway | feature | — | ConditionalOnMissingClass for Spring Cloud Gateway. Property to force-enable. Tests. |
 
 ### Documentation
 
@@ -133,8 +133,8 @@ A Spring Boot starter that provides a comprehensive, opinionated error handling 
 ## Dependency Graph
 
 ```
-1 → 2 → 3 (build infrastructure)
-2 → 4, 5, 6, 9 (API surface + config)
+3 (build infrastructure — tooling, unblocked)
+4, 5, 6, 9 (API surface + config — unblocked)
 4 → 7, 8, 20 (strategy defaults)
 7, 8, 9 → 10 (ProblemEngine)
 10 → 11, 12 (interception)
@@ -149,7 +149,7 @@ A Spring Boot starter that provides a comprehensive, opinionated error handling 
 34, 23 → 36 (capture + sanitize)
 6, 10 → 37, 38 → 39 (propagation)
 11 → 40, 41, 42 (content negotiation)
-2 → 43, 44 (exclusions)
+43, 44 (exclusions — unblocked)
 ```
 
 ## Parallelism

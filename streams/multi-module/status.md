@@ -1,6 +1,6 @@
 # Stream: multi-module
 
-- **Status**: in-progress
+- **Status**: complete
 - **Wave**: 
 - **Blocked By**: None
 - **Capabilities**: 
