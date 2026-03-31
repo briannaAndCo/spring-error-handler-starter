@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package io.github.landonharter.errorhandler;
+package io.github.briannaandco.errorhandler
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.autoconfigure.AutoConfiguration
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 
 @AutoConfiguration
 @ConditionalOnWebApplication
-public class ErrorHandlerAutoConfiguration {
-
-}
+public class ErrorHandlerAutoConfiguration
