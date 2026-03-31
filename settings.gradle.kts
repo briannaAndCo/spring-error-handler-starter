@@ -1,8 +1,10 @@
 pluginManagement {
-    val springBootVersion: String by settings
-    plugins {
-        id("org.springframework.boot") version springBootVersion apply false
-    }
+    includeBuild("build-logic")
 }
 
-rootProject.name = "error-handler-spring-boot-starter"
+rootProject.name = "error-handler-spring-boot"
+
+include(
+    "error-handler-spring-boot-autoconfigure",
+    "error-handler-spring-boot-starter",
+)
