@@ -2,18 +2,32 @@ plugins {
     `java-library`
     `maven-publish`
     signing
+    kotlin("jvm") version "2.0.21"
+    kotlin("plugin.spring") version "2.0.21"
+    // TODO: Migrate to KSP once spring-boot-autoconfigure-processor and spring-boot-configuration-processor support it
+    kotlin("kapt") version "2.0.21"
     id("org.springframework.boot") apply false
     id("io.spring.dependency-management") version "1.1.7"
 }
 
-group = "io.github.landonharter"
-version = "0.1.0-SNAPSHOT"
+group = "io.github.briannaandco"
+version = property("version") as String
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
     withSourcesJar()
     withJavadocJar()
+}
+
+kotlin {
+    jvmToolchain(17)
+    explicitApi()
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+    }
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 repositories {
@@ -29,11 +43,16 @@ dependencyManagement {
 dependencies {
     compileOnly("org.springframework.boot:spring-boot-starter")
     compileOnly("org.springframework.boot:spring-boot-starter-web")
-    annotationProcessor("org.springframework.boot:spring-boot-autoconfigure-processor")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    kapt("org.springframework.boot:spring-boot-autoconfigure-processor")
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "mockito-core")
+        exclude(module = "mockito-junit-jupiter")
+    }
     testImplementation("org.springframework.boot:spring-boot-starter-web")
+    testImplementation("io.mockk:mockk-jvm:1.13.13")
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
 tasks.test {
@@ -47,7 +66,7 @@ publishing {
             pom {
                 name = "Error Handler Spring Boot Starter"
                 description = "A comprehensive, opinionated error handling platform for Spring Boot applications"
-                url = "https://github.com/landonharter/spring-error-handler-starter"
+                url = "https://github.com/briannaAndCo/spring-error-handler-starter"
                 licenses {
                     license {
                         name = "Apache License, Version 2.0"
@@ -56,14 +75,14 @@ publishing {
                 }
                 developers {
                     developer {
-                        name = "Landon Harter"
-                        url = "https://github.com/landonharter"
+                        name = "briannaAndCo"
+                        url = "https://github.com/briannaAndCo"
                     }
                 }
                 scm {
-                    connection = "scm:git:git://github.com/landonharter/spring-error-handler-starter.git"
-                    developerConnection = "scm:git:ssh://github.com:landonharter/spring-error-handler-starter.git"
-                    url = "https://github.com/landonharter/spring-error-handler-starter"
+                    connection = "scm:git:git://github.com/briannaAndCo/spring-error-handler-starter.git"
+                    developerConnection = "scm:git:ssh://github.com:briannaAndCo/spring-error-handler-starter.git"
+                    url = "https://github.com/briannaAndCo/spring-error-handler-starter"
                 }
             }
         }

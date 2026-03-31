@@ -3,6 +3,7 @@ target/
 .gradle/
 *.class
 *.jar
+!gradle/wrapper/gradle-wrapper.jar
 *.war
 *.log
 .idea/
@@ -12,3 +13,4 @@ target/
 .classpath
 .project
 .DS_Store
+.worktrees
