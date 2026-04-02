@@ -2,55 +2,421 @@
   "name": "Spring Error Handler Starter",
   "created": "2026-03-30",
   "repo": "briannaAndCo/spring-error-handler-starter",
-  "objective": "A Spring Boot starter that provides a comprehensive, opinionated error handling platform for Spring applications — targeting inclusion as an officially recommended community starter on start.spring.io.",
-  "completedStreams": ["research", "compliance", "kotlin-conversion"],
+  "objective": "A Spring Boot starter that provides a comprehensive, opinionated error handling platform for Spring applications \u2014 targeting inclusion as an officially recommended community starter on start.spring.io.",
+  "completedStreams": [
+    "research",
+    "compliance",
+    "kotlin-conversion",
+    "multi-module"
+  ],
   "streams": {
-    "multi-module": { "id": 2, "status": "ready", "type": "ops", "blockedBy": [], "description": "Multi-module Gradle, build-logic, convention plugins, libs.versions.toml" },
-    "tooling": { "id": 3, "status": "blocked", "type": "ops", "blockedBy": ["multi-module"], "description": "Detekt, ktlint, explicitApi(), Dokka, CI update" },
-    "api-interfaces": { "id": 4, "status": "blocked", "type": "feature", "blockedBy": ["multi-module"], "description": "fun interface: ErrorCodeResolver, ProblemDetailCustomizer, SensitiveDataSanitizer, ExceptionClassifier, LoggingCustomizer" },
-    "api-annotations": { "id": 5, "status": "blocked", "type": "feature", "blockedBy": ["multi-module"], "description": "@ErrorCode and @ErrorContext annotation definitions" },
-    "api-types": { "id": 6, "status": "blocked", "type": "feature", "blockedBy": ["multi-module"], "description": "ProblemRelay, Violation, package structure" },
-    "error-code-resolution": { "id": 7, "status": "blocked", "type": "feature", "blockedBy": ["api-interfaces"], "description": "Default ErrorCodeResolver: UPPER_SNAKE_CASE convention, superclass lookup, overrides" },
-    "exception-classifier": { "id": 8, "status": "blocked", "type": "feature", "blockedBy": ["api-interfaces"], "description": "Default ExceptionClassifier: expected vs unexpected, status resolution" },
-    "properties": { "id": 9, "status": "blocked", "type": "feature", "blockedBy": ["multi-module"], "description": "ProblemEngineProperties data class, configuration metadata" },
-    "problem-engine": { "id": 10, "status": "blocked", "type": "feature", "blockedBy": ["error-code-resolution", "exception-classifier", "properties"], "description": "ProblemEngine pipeline skeleton, fail-safe, last-resort fallback" },
-    "problem-sentinel": { "id": 11, "status": "blocked", "type": "feature", "blockedBy": ["problem-engine"], "description": "@RestControllerAdvice, LOWEST_PRECEDENCE, back-off" },
-    "problem-barrier": { "id": 12, "status": "blocked", "type": "feature", "blockedBy": ["problem-engine"], "description": "Servlet Filter, filter-chain exceptions, committed response check" },
-    "problem-warden-entrypoint": { "id": 13, "status": "blocked", "type": "feature", "blockedBy": ["problem-engine"], "description": "AuthenticationEntryPoint 401, conditional on Spring Security" },
-    "problem-warden-access-denied": { "id": 14, "status": "blocked", "type": "feature", "blockedBy": ["problem-engine"], "description": "AccessDeniedHandler 403, @PreAuthorize support" },
-    "violation-model": { "id": 15, "status": "blocked", "type": "feature", "blockedBy": ["api-types"], "description": "Violation data class finalization" },
-    "validation-method-argument": { "id": 16, "status": "blocked", "type": "feature", "blockedBy": ["problem-engine", "violation-model"], "description": "MethodArgumentNotValidException → 400 with violations" },
-    "validation-constraint": { "id": 17, "status": "blocked", "type": "feature", "blockedBy": ["problem-engine", "violation-model"], "description": "ConstraintViolationException → 400, PropertyPath normalization" },
-    "validation-handler-method": { "id": 18, "status": "blocked", "type": "feature", "blockedBy": ["problem-engine", "violation-model"], "description": "HandlerMethodValidationException → 400" },
-    "deserialization-errors": { "id": 19, "status": "blocked", "type": "feature", "blockedBy": ["problem-engine", "violation-model"], "description": "Jackson exception parsing, plain-language types, no class names" },
-    "redactor-interface": { "id": 20, "status": "blocked", "type": "feature", "blockedBy": ["api-interfaces"], "description": "SensitiveDataSanitizer interface finalization, contracts" },
-    "redactor-patterns": { "id": 21, "status": "blocked", "type": "feature", "blockedBy": ["redactor-interface"], "description": "Default patterns: email, SSN, credit card, phone, JWT" },
-    "redactor-config": { "id": 22, "status": "blocked", "type": "feature", "blockedBy": ["redactor-patterns", "properties"], "description": "Custom patterns via properties, timeout, recursion depth" },
-    "redactor-integration": { "id": 23, "status": "blocked", "type": "feature", "blockedBy": ["redactor-config", "problem-engine"], "description": "Wire Redactor into ProblemEngine, recursive scanning, perf tests" },
-    "logging-core": { "id": 24, "status": "blocked", "type": "feature", "blockedBy": ["problem-engine"], "description": "Automated logging, expected/unexpected defaults, truncation" },
-    "logging-mdc": { "id": 25, "status": "blocked", "type": "feature", "blockedBy": ["logging-core"], "description": "MDC enrichment, cleanup, concurrent isolation" },
-    "logging-levels": { "id": 26, "status": "blocked", "type": "feature", "blockedBy": ["logging-core", "properties"], "description": "Per-exception and per-status log levels, precedence" },
-    "logging-structured": { "id": 27, "status": "blocked", "type": "feature", "blockedBy": ["logging-core"], "description": "Spring Boot 3.4+ structured logging, JSON fallback" },
-    "i18n-resolution": { "id": 28, "status": "blocked", "type": "feature", "blockedBy": ["problem-engine"], "description": "MessageSource resolution, convention codes, fallbacks, interpolation" },
-    "user-message": { "id": 29, "status": "blocked", "type": "feature", "blockedBy": ["i18n-resolution", "properties"], "description": "userMessage extension property, configurable field name, locale" },
-    "verbosity": { "id": 30, "status": "blocked", "type": "feature", "blockedBy": ["exception-classifier", "properties"], "description": "Environment-aware verbosity, verbose-profiles, per-exception override" },
-    "tracing-injection": { "id": 31, "status": "blocked", "type": "feature", "blockedBy": ["problem-engine"], "description": "Micrometer Tracing detection, traceId/spanId injection" },
-    "tracing-absence": { "id": 32, "status": "blocked", "type": "feature", "blockedBy": ["tracing-injection"], "description": "No-classpath behavior, no ClassNotFoundException, omit fields" },
-    "context-weaver-core": { "id": 33, "status": "blocked", "type": "feature", "blockedBy": ["api-annotations", "problem-engine"], "description": "@Aspect, @AfterThrowing, thread-local context" },
-    "context-weaver-capture": { "id": 34, "status": "blocked", "type": "feature", "blockedBy": ["context-weaver-core"], "description": "Dot-notation resolution, max depth 5, null-safe" },
-    "context-weaver-merge": { "id": 35, "status": "blocked", "type": "feature", "blockedBy": ["context-weaver-core"], "description": "Nested @ErrorContext merging, inner wins" },
-    "context-weaver-sanitize": { "id": 36, "status": "blocked", "type": "feature", "blockedBy": ["context-weaver-capture", "redactor-integration"], "description": "PII sanitization on captured values" },
-    "problem-relay": { "id": 37, "status": "blocked", "type": "feature", "blockedBy": ["api-types", "problem-engine"], "description": "ProblemRelay in ProblemEngine, upstream preservation, depth tracking" },
-    "problem-deserializer": { "id": 38, "status": "blocked", "type": "feature", "blockedBy": ["api-types"], "description": "ProblemDetailDeserializer, JSON parsing, malformed fallback" },
-    "restclient-decoder": { "id": 39, "status": "blocked", "type": "feature", "blockedBy": ["problem-deserializer", "multi-module"], "description": "RestClient/RestTemplate module, ResponseErrorHandler, auto-config" },
-    "content-json": { "id": 40, "status": "blocked", "type": "feature", "blockedBy": ["problem-sentinel"], "description": "application/problem+json handling" },
-    "content-xml": { "id": 41, "status": "blocked", "type": "feature", "blockedBy": ["problem-sentinel"], "description": "application/problem+xml, conditional on XML support" },
-    "content-html": { "id": 42, "status": "blocked", "type": "feature", "blockedBy": ["problem-sentinel"], "description": "HTML error pages, template detection, hardcoded fallback" },
-    "exclude-graphql": { "id": 43, "status": "blocked", "type": "feature", "blockedBy": ["multi-module"], "description": "ConditionalOnMissingClass for GraphQL, force-enable property" },
-    "exclude-gateway": { "id": 44, "status": "blocked", "type": "feature", "blockedBy": ["multi-module"], "description": "ConditionalOnMissingClass for Gateway, force-enable property" },
-    "docs-config-reference": { "id": 45, "status": "blocked", "type": "docs", "blockedBy": ["properties"], "description": "Configuration reference for all error-handler.* properties" },
-    "docs-usage-guide": { "id": 46, "status": "blocked", "type": "docs", "blockedBy": [], "description": "Getting started, patterns, extension examples, migration" },
-    "docs-sample-project": { "id": 47, "status": "blocked", "type": "docs", "blockedBy": [], "description": "Working sample application" },
-    "docs-readme-update": { "id": 48, "status": "blocked", "type": "docs", "blockedBy": [], "description": "Final README with badges, quickstart" }
+    "tooling": {
+      "id": 3,
+      "status": "ready",
+      "type": "ops",
+      "blockedBy": [],
+      "description": "Detekt, ktlint, explicitApi(), Dokka, CI update"
+    },
+    "api-interfaces": {
+      "id": 4,
+      "status": "ready",
+      "type": "feature",
+      "blockedBy": [],
+      "description": "fun interface: ErrorCodeResolver, ProblemDetailCustomizer, SensitiveDataSanitizer, ExceptionClassifier, LoggingCustomizer"
+    },
+    "api-annotations": {
+      "id": 5,
+      "status": "ready",
+      "type": "feature",
+      "blockedBy": [],
+      "description": "@ErrorCode and @ErrorContext annotation definitions"
+    },
+    "api-types": {
+      "id": 6,
+      "status": "ready",
+      "type": "feature",
+      "blockedBy": [],
+      "description": "ProblemRelay, Violation, package structure"
+    },
+    "error-code-resolution": {
+      "id": 7,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "api-interfaces"
+      ],
+      "description": "Default ErrorCodeResolver: UPPER_SNAKE_CASE convention, superclass lookup, overrides"
+    },
+    "exception-classifier": {
+      "id": 8,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "api-interfaces"
+      ],
+      "description": "Default ExceptionClassifier: expected vs unexpected, status resolution"
+    },
+    "properties": {
+      "id": 9,
+      "status": "ready",
+      "type": "feature",
+      "blockedBy": [],
+      "description": "ProblemEngineProperties data class, configuration metadata"
+    },
+    "problem-engine": {
+      "id": 10,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "error-code-resolution",
+        "exception-classifier",
+        "properties"
+      ],
+      "description": "ProblemEngine pipeline skeleton, fail-safe, last-resort fallback"
+    },
+    "problem-sentinel": {
+      "id": 11,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-engine"
+      ],
+      "description": "@RestControllerAdvice, LOWEST_PRECEDENCE, back-off"
+    },
+    "problem-barrier": {
+      "id": 12,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-engine"
+      ],
+      "description": "Servlet Filter, filter-chain exceptions, committed response check"
+    },
+    "problem-warden-entrypoint": {
+      "id": 13,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-engine"
+      ],
+      "description": "AuthenticationEntryPoint 401, conditional on Spring Security"
+    },
+    "problem-warden-access-denied": {
+      "id": 14,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-engine"
+      ],
+      "description": "AccessDeniedHandler 403, @PreAuthorize support"
+    },
+    "violation-model": {
+      "id": 15,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "api-types"
+      ],
+      "description": "Violation data class finalization"
+    },
+    "validation-method-argument": {
+      "id": 16,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-engine",
+        "violation-model"
+      ],
+      "description": "MethodArgumentNotValidException \u2192 400 with violations"
+    },
+    "validation-constraint": {
+      "id": 17,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-engine",
+        "violation-model"
+      ],
+      "description": "ConstraintViolationException \u2192 400, PropertyPath normalization"
+    },
+    "validation-handler-method": {
+      "id": 18,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-engine",
+        "violation-model"
+      ],
+      "description": "HandlerMethodValidationException \u2192 400"
+    },
+    "deserialization-errors": {
+      "id": 19,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-engine",
+        "violation-model"
+      ],
+      "description": "Jackson exception parsing, plain-language types, no class names"
+    },
+    "redactor-interface": {
+      "id": 20,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "api-interfaces"
+      ],
+      "description": "SensitiveDataSanitizer interface finalization, contracts"
+    },
+    "redactor-patterns": {
+      "id": 21,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "redactor-interface"
+      ],
+      "description": "Default patterns: email, SSN, credit card, phone, JWT"
+    },
+    "redactor-config": {
+      "id": 22,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "redactor-patterns",
+        "properties"
+      ],
+      "description": "Custom patterns via properties, timeout, recursion depth"
+    },
+    "redactor-integration": {
+      "id": 23,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "redactor-config",
+        "problem-engine"
+      ],
+      "description": "Wire Redactor into ProblemEngine, recursive scanning, perf tests"
+    },
+    "logging-core": {
+      "id": 24,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-engine"
+      ],
+      "description": "Automated logging, expected/unexpected defaults, truncation"
+    },
+    "logging-mdc": {
+      "id": 25,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "logging-core"
+      ],
+      "description": "MDC enrichment, cleanup, concurrent isolation"
+    },
+    "logging-levels": {
+      "id": 26,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "logging-core",
+        "properties"
+      ],
+      "description": "Per-exception and per-status log levels, precedence"
+    },
+    "logging-structured": {
+      "id": 27,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "logging-core"
+      ],
+      "description": "Spring Boot 3.4+ structured logging, JSON fallback"
+    },
+    "i18n-resolution": {
+      "id": 28,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-engine"
+      ],
+      "description": "MessageSource resolution, convention codes, fallbacks, interpolation"
+    },
+    "user-message": {
+      "id": 29,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "i18n-resolution",
+        "properties"
+      ],
+      "description": "userMessage extension property, configurable field name, locale"
+    },
+    "verbosity": {
+      "id": 30,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "exception-classifier",
+        "properties"
+      ],
+      "description": "Environment-aware verbosity, verbose-profiles, per-exception override"
+    },
+    "tracing-injection": {
+      "id": 31,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-engine"
+      ],
+      "description": "Micrometer Tracing detection, traceId/spanId injection"
+    },
+    "tracing-absence": {
+      "id": 32,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "tracing-injection"
+      ],
+      "description": "No-classpath behavior, no ClassNotFoundException, omit fields"
+    },
+    "context-weaver-core": {
+      "id": 33,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "api-annotations",
+        "problem-engine"
+      ],
+      "description": "@Aspect, @AfterThrowing, thread-local context"
+    },
+    "context-weaver-capture": {
+      "id": 34,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "context-weaver-core"
+      ],
+      "description": "Dot-notation resolution, max depth 5, null-safe"
+    },
+    "context-weaver-merge": {
+      "id": 35,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "context-weaver-core"
+      ],
+      "description": "Nested @ErrorContext merging, inner wins"
+    },
+    "context-weaver-sanitize": {
+      "id": 36,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "context-weaver-capture",
+        "redactor-integration"
+      ],
+      "description": "PII sanitization on captured values"
+    },
+    "problem-relay": {
+      "id": 37,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "api-types",
+        "problem-engine"
+      ],
+      "description": "ProblemRelay in ProblemEngine, upstream preservation, depth tracking"
+    },
+    "problem-deserializer": {
+      "id": 38,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "api-types"
+      ],
+      "description": "ProblemDetailDeserializer, JSON parsing, malformed fallback"
+    },
+    "restclient-decoder": {
+      "id": 39,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-deserializer"
+      ],
+      "description": "RestClient/RestTemplate module, ResponseErrorHandler, auto-config"
+    },
+    "content-json": {
+      "id": 40,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-sentinel"
+      ],
+      "description": "application/problem+json handling"
+    },
+    "content-xml": {
+      "id": 41,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-sentinel"
+      ],
+      "description": "application/problem+xml, conditional on XML support"
+    },
+    "content-html": {
+      "id": 42,
+      "status": "blocked",
+      "type": "feature",
+      "blockedBy": [
+        "problem-sentinel"
+      ],
+      "description": "HTML error pages, template detection, hardcoded fallback"
+    },
+    "exclude-graphql": {
+      "id": 43,
+      "status": "ready",
+      "type": "feature",
+      "blockedBy": [],
+      "description": "ConditionalOnMissingClass for GraphQL, force-enable property"
+    },
+    "exclude-gateway": {
+      "id": 44,
+      "status": "ready",
+      "type": "feature",
+      "blockedBy": [],
+      "description": "ConditionalOnMissingClass for Gateway, force-enable property"
+    },
+    "docs-config-reference": {
+      "id": 45,
+      "status": "blocked",
+      "type": "docs",
+      "blockedBy": [
+        "properties"
+      ],
+      "description": "Configuration reference for all error-handler.* properties"
+    },
+    "docs-usage-guide": {
+      "id": 46,
+      "status": "ready",
+      "type": "docs",
+      "blockedBy": [],
+      "description": "Getting started, patterns, extension examples, migration"
+    },
+    "docs-sample-project": {
+      "id": 47,
+      "status": "ready",
+      "type": "docs",
+      "blockedBy": [],
+      "description": "Working sample application"
+    },
+    "docs-readme-update": {
+      "id": 48,
+      "status": "ready",
+      "type": "docs",
+      "blockedBy": [],
+      "description": "Final README with badges, quickstart"
+    }
   }
 }
